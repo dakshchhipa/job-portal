@@ -86,7 +86,9 @@ const Navbar = () => {
             >
               <NavLink
                 to={path}
-                className={({ isActive }) => (isActive ? "active" : "")}
+                className={({ isActive }) => {
+                  isActive ? "active" : "";
+                }}
               >
                 {title}
               </NavLink>
