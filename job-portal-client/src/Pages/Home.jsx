@@ -2,18 +2,22 @@ import { useEffect, useState } from "react";
 import Banner from "../Components/Banner";
 import Card from "../Components/Card";
 import Jobs from "./Jobs";
+import Sidebar from "../sidebar/Sidebar";
+import Newsletter from "../Components/Newsletter";
 
 const Home = () => {
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [jobs, setJobs] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerpage = 6;
 
   useEffect(() => {
+    setIsLoading(true);
     fetch("jobs.json")
-      .then((res) => res.json())
-      .then((data) => {
-        // console.log(data);
-        setJobs(data);
-      });
+      .then((response) => response.json())
+      .then((data) => setJobs(data.users));
+    setIsLoading(false);
   }, []);
   // console.log(jobs);
   const [query, setQuery] = useState("");
@@ -34,6 +38,24 @@ const Home = () => {
     setSelectedCategory(event.target.value);
   };
 
+  const calculatePageRange = () => {
+    const startIndex = (currentPage - 1) * itemsPerpage;
+    const endIndex = startIndex + itemsPerpage;
+    return { startIndex, endIndex };
+  };
+
+  const nextPage = () => {
+    if (currentPage < Math.ceil(filteredItems.length / itemsPerpage)) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
+
+  const prevPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
+
   const filteredData = (jobs, selected, query) => {
     let filteredJobs = jobs;
 
@@ -52,12 +74,16 @@ const Home = () => {
           postingDate,
         }) =>
           jobLocation.toLowerCase() === selected.toLowerCase() ||
-          ParseInt(maxPrice) <= parseInt(selected) ||
+          parseInt(maxPrice) <= parseInt(selected) ||
+          postingDate >= selected ||
+          experienceLevel.toLowerCase() === selected.toLowerCase() ||
           salaryType.toLowerCase() === selected.toLowerCase() ||
           employmentType.toLowerCase() === selected.toLowerCase()
       );
       // console.log(filteredJobs);
     }
+    const { startIndex, endIndex } = calculatePageRange();
+    filteredJobs = filteredJobs.slice(startIndex, endIndex);
 
     return filteredJobs.map((data, i) => <Card key={i} data={data} />);
   };
@@ -68,12 +94,50 @@ const Home = () => {
       <Banner query={query} handleInputChange={handleInputChange} />
 
       <div className="bg-[#FAFAFA] md:grid grid-cols-4 gap-8 lg:px-24 px-4 py-12">
-        <div className="bg-white p-4 rounded">left</div>
-        <div className="col-span-2 bg-white p-4 rounded-sm">
-          {" "}
-          <Jobs result={result} />
+        <div className="bg-white p-4 rounded">
+          <Sidebar handleChange={handleChange} handleClick={handleClick} />
         </div>
-        <div className="bg-white p-4 rounded">right</div>
+        <div className="col-span-2 bg-white p-4 rounded-sm">
+          {isLoading ? (
+            <p className="font-medium">Loading...</p>
+          ) : result.length > 0 ? (
+            <Jobs result={result} />
+          ) : (
+            <>
+              <h3 className="text-lg font-bold mb-2">{result.length} Jobs</h3>
+              <p>No data found!</p>
+            </>
+          )}
+          {result.length > 0 ? (
+            <div className="flex justify-center mt-4 space-x-8">
+              <button
+                onClick={prevPage}
+                disabled={currentPage === 1}
+                className="hover:underline"
+              >
+                Previous
+              </button>
+              <span className="mx-2">
+                Page {currentPage} of{" "}
+                {Math.ceil(filteredItems.length / itemsPerpage)}
+              </span>
+              <button
+                onClick={nextPage}
+                disabled={
+                  currentPage === Math.ceil(filteredItems.length / itemsPerpage)
+                }
+                className="hover:underline"
+              >
+                Next
+              </button>
+            </div>
+          ) : (
+            ""
+          )}
+        </div>
+        <div className="bg-white p-4 rounded">
+          <Newsletter />
+        </div>
       </div>
     </div>
   );
