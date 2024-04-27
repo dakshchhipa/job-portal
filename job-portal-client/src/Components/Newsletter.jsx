@@ -1,5 +1,5 @@
 import React from "react";
-import { FaEnvelopeOpenText, FaRockets } from "react-icons/fa6";
+import { FaEnvelopeOpenText, FaRocket } from "react-icons/fa6";
 
 const Newsletter = () => {
   return;
@@ -31,7 +31,7 @@ const Newsletter = () => {
 
     <div className="mt-20">
       <h3 className="text-lg font-bold mb-2 flex items-center gap-2">
-        <FaRockets />
+        <FaRocket />
         Get noticed faster
       </h3>
       <p className="text-primary/75 text-base mb-4">
