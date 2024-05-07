@@ -15,8 +15,8 @@ const Navbar = () => {
     { path: "/post-job", title: "Post A Job" },
   ];
   return (
-    <header className="max-w-screen-2xl container mx-auto xl:px-24 px-4">
-      <nav className="flex justify-between items-center py-6">
+    <header className="max-w-screen-2xl container mx-auto xl:px-24 px-4" >   
+      <nav className="flex justify-between items-center py-6" >
         <a href="/" className="flex items-center gap-2 text-black">
           <svg
             xmls="http://www.w3.org/2000/svg"
@@ -49,15 +49,15 @@ const Navbar = () => {
           ))}
         </ul>
         <div className="text-base text-primary font-medium space-x-5 hidden lg:block">
-          <Link to="/Login" className="py-2 px-5" border rounded>
-            {" "}
+          <Link to="/Login" className="py-2 px-5 border rounded bg-blue text-white">
+            {/* {" "} */}
             Log in
           </Link>
           <Link
             to="/sign-up"
             className="py-2 px-5 border rounded bg-blue  text-white"
           >
-            {" "}
+            {/* {" "} */}
             Sign up
           </Link>
         </div>
@@ -105,3 +105,5 @@ const Navbar = () => {
 };
 
 export default Navbar;
+
+
