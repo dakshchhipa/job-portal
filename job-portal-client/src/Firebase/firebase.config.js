@@ -1,5 +1,3 @@
-
-
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 // TODO: Add SDKs for Firebase products that you want to use
@@ -7,12 +5,12 @@ import { initializeApp } from "firebase/app";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyC3IM5L6a9qbE-kPTMTZEkj7GALOh5gmw4",
-  authDomain: "job-portal-5384f.firebaseapp.com",
-  projectId: "job-portal-5384f",
-  storageBucket: "job-portal-5384f.appspot.com",
-  messagingSenderId: "862080622763",
-  appId: "1:862080622763:web:8f930f800bea0d026717ee"
+  apiKey: "AIzaSyBpm5pd3AIkjBxhc_JJYp1PZWffZoPMQTI",
+  authDomain: "job-portal-demo-efd14.firebaseapp.com",
+  projectId: "job-portal-demo-efd14",
+  storageBucket: "job-portal-demo-efd14.appspot.com",
+  messagingSenderId: "412916715373",
+  appId: "1:412916715373:web:8267ca62adca2a4fbc1464",
 };
 
 // Initialize Firebase

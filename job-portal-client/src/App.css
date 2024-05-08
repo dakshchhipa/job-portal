@@ -15,7 +15,10 @@ a {
 li {
   list-style: none;
 }
-
+.dakshmod {
+  display: flex;
+  text-algn: center;
+}
 .btns {
   padding: 10px 20px;
   margin-right: 6px;

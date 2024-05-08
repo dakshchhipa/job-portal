@@ -22,7 +22,7 @@ const Home = () => {
         setIsLoading(false);
       })
       .catch((error) => {
-        console.error('Error fetching data:', error);
+        console.error("Error fetching data:", error);
         setIsLoading(false);
       });
   }, []);
@@ -46,7 +46,11 @@ const Home = () => {
     }
     return (
       job.jobTitle.toLowerCase().includes(query.toLowerCase()) &&
-      (!selectedCategory || job.jobLocation.toLowerCase() === selectedCategory.toLowerCase())
+      (!selectedCategory ||
+        job.salaryType.toLowerCase() === selectedCategory.toLowerCase() ||
+        job.jobLocation.toLowerCase() === selectedCategory.toLowerCase() ||
+        job.employmentType.toLowerCase() === selectedCategory.toLowerCase() ||
+        parseInt(job.maxPrice) <= parseInt(selectedCategory))
     );
   });
 
@@ -82,24 +86,37 @@ const Home = () => {
           {isLoading ? (
             <p className="font-medium">Loading...</p>
           ) : paginatedItems.length > 0 ? (
-            <Jobs result={paginatedItems.map((data, i) => <Card key={i} data={data} />)} />
+            <Jobs
+              result={paginatedItems.map((data, i) => (
+                <Card key={i} data={data} />
+              ))}
+            />
           ) : (
             <>
-              <h3 className="text-lg font-bold mb-2">{paginatedItems.length} Jobs</h3>
+              <h3 className="text-lg font-bold mb-2">
+                {paginatedItems.length} Jobs
+              </h3>
               <p>No data found!</p>
             </>
           )}
           {filteredItems.length > 0 && (
             <div className="flex justify-center mt-4 space-x-8">
-              <button onClick={prevPage} disabled={currentPage === 1} className="hover:underline">
+              <button
+                onClick={prevPage}
+                disabled={currentPage === 1}
+                className="hover:underline"
+              >
                 Previous
               </button>
               <span className="mx-2">
-                Page {currentPage} of {Math.ceil(filteredItems.length / itemsPerPage)}
+                Page {currentPage} of{" "}
+                {Math.ceil(filteredItems.length / itemsPerPage)}
               </span>
               <button
                 onClick={nextPage}
-                disabled={currentPage === Math.ceil(filteredItems.length / itemsPerPage)}
+                disabled={
+                  currentPage === Math.ceil(filteredItems.length / itemsPerPage)
+                }
                 className="hover:underline"
               >
                 Next
@@ -116,6 +133,3 @@ const Home = () => {
 };
 
 export default Home;
-
-
-
