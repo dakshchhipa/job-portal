@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { FaBarsStaggered, FaXmark } from "react-icons/fa6";
 
@@ -8,12 +8,16 @@ const Navbar = () => {
     setIsMenuOpen(!IsMenuOpen);
   };
 
+  // check for user token
+  const token = localStorage.getItem("token");
+
   const navItems = [
     { path: "/", title: "start a search" },
     { path: "/my-job", title: "My Jobs" },
     { path: "/salary", title: "salary estimate" },
     { path: "/post-job", title: "Post A Job" },
   ];
+
   return (
     <header className="max-w-screen-2xl container mx-auto xl:px-24 px-4">
       <nav className="flex justify-between items-center py-6">
@@ -49,20 +53,37 @@ const Navbar = () => {
           ))}
         </ul>
         <div className="text-base text-primary font-medium space-x-5 hidden lg:block">
-          <Link
-            to="/Login"
-            className="py-2 px-5 border rounded bg-blue text-white"
-          >
-            {/* {" "} */}
-            Log in
-          </Link>
-          <Link
-            to="/sign-up"
-            className="py-2 px-5 border rounded bg-blue  text-white"
-          >
-            {/* {" "} */}
-            Sign up
-          </Link>
+          {token ? (
+            <>
+              <Link to="/my-job">Profile</Link>
+
+              <Link
+                onClick={() => {
+                  localStorage.removeItem("token");
+                  window.location.reload();
+                }}
+              >
+                Log out
+              </Link>
+            </>
+          ) : (
+            <>
+              <Link
+                to="/Login"
+                className="py-2 px-5 border rounded bg-blue text-white"
+              >
+                {/* {" "} */}
+                Log in
+              </Link>
+              <Link
+                to="/sign-up"
+                className="py-2 px-5 border rounded bg-blue  text-white"
+              >
+                {/* {" "} */}
+                Sign up
+              </Link>
+            </>
+          )}
         </div>
         <div className="nd:hidden block">
           <button onClick={handleMenuToggler}>

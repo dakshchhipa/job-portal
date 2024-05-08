@@ -27,14 +27,16 @@ const Login = () => {
   const onSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post("http://localhost:4000/link", {
+      const res = await axios.post("http://localhost:4000/login", {
         email,
         password,
       });
       console.log(res.data);
+
       const { token } = res.data;
       localStorage.setItem("token", token);
-      navigate("/newEvent");
+      navigate("/");
+      window.location.reload();
     } catch (err) {
       console.error(err.response.data);
     }
